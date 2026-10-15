@@ -1,11 +1,11 @@
 import {chromium} from 'playwright';
 import {createServer} from 'node:http';
-import {readFile,stat,mkdir} from 'node:fs/promises';
+import {readFile,writeFile,stat,mkdir} from 'node:fs/promises';
 import {existsSync} from 'node:fs';
 import {resolve,extname} from 'node:path';
 import assert from 'node:assert/strict';
 const root=resolve(import.meta.dirname,'..');
-const mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg':'image/svg+xml','.woff2':'font/woff2'};
+const mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg':'image/svg+xml','.woff2':'font/woff2','.mp3':'audio/mpeg','.ogg':'audio/ogg'};
 const server=createServer(async(req,res)=>{try{let path=resolve(root,'.'+decodeURIComponent(new URL(req.url,'http://local').pathname.replace(/^\/retro-street-fighter(?=\/|$)/,'')));if(path!==root&&!path.startsWith(root+'/')){res.writeHead(403).end();return;}if((await stat(path)).isDirectory())path=resolve(path,'index.html');res.setHeader('Content-Type',mime[extname(path)]||'application/octet-stream');res.end(await readFile(path));}catch{res.writeHead(404).end();}});
 await new Promise(r=>server.listen(0,'127.0.0.1',r));
 const browser=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_PATH||(existsSync('/usr/bin/chromium')?'/usr/bin/chromium':undefined),args:['--no-sandbox']});
@@ -30,10 +30,24 @@ try{
  await page.screenshot({path:resolve(root,'test-results/desktop-fight.png'),fullPage:true});
  await page.locator('#help-open').click();assert.equal(await page.locator('#help').evaluate(d=>d.open),true);await page.locator('#help-close').click();await page.locator('#resume').click();
  await page.evaluate(()=>window.__match.fighters[1].hp=0);await page.waitForTimeout(5600);assert.equal((await page.evaluate(()=>window.__observed)).phase,'fight');await page.evaluate(()=>window.__match.fighters[1].hp=0);await page.waitForTimeout(3300);await page.locator('#result-overlay').waitFor({state:'visible'});assert.equal(await page.locator('#result-title').textContent(),'YOU WIN!');await page.locator('#rematch').click();await page.waitForTimeout(100);assert.deepEqual((await page.evaluate(()=>window.__observed)).wins,[0,0]);await page.locator('#pause').click();await page.locator('#return-select').click();
- await page.locator('#sound').click();assert.equal(await page.locator('#sound').getAttribute('aria-pressed'),'true');
+ await page.locator('#sound').click();assert.equal(await page.locator('#sound').getAttribute('aria-pressed'),'false');await page.locator('#sound').click();assert.equal(await page.locator('#sound').getAttribute('aria-pressed'),'true');
  // Keyboard input outside the canvas must remain available to the hosting blog.
  await page.locator('#difficulty').focus();assert.equal(await page.evaluate(()=>{const e=new KeyboardEvent('keydown',{key:'ArrowDown',bubbles:true,cancelable:true});document.activeElement.dispatchEvent(e);return e.defaultPrevented;}),false);
  console.log('PASS desktop: subpath assets, visible portraits, roster, settings, movement, AGNI stretch/float, pause, guide, sound, focus, victory, rematch');
+
+ const audioReport=await page.evaluate(async()=>{
+   const {ArcadeAudio,AUDIO_FILES,VOICE_PROFILES}=await import('./audio.js');
+   const offline=new OfflineAudioContext(1,16000*10,16000),audio=new ArcadeAudio({context:offline});audio.connect();audio.ready=audio.load();const loaded=await audio.ready;
+   audio.sample('round');audio.sample('one',{delay:.5});audio.sample('fight',{delay:1.05});audio.sample('ryuji-a',{delay:1.7});audio.sample('kazan-s',{delay:2.85});audio.sample('agni-a',{delay:4.4});audio.sample('titan-a',{delay:5.7});audio.vocal('mina',['i','a'],{delay:6.45});audio.sample('electric',{delay:7.2,channel:'effects'});audio.vocal('bolt',['e','a'],{delay:7.2});audio.sample('hit-heavy',{delay:7.8,channel:'effects'});audio.sample('win',{delay:8.3});
+   const rendered=await offline.startRendering(),wave=rendered.getChannelData(0);let power=0,peak=0;for(const sample of wave){power+=sample*sample;peak=Math.max(peak,Math.abs(sample));}
+   const clipPower={};for(const [name,b] of audio.buffers){const a=b.getChannelData(0);let sum=0;for(const n of a)sum+=n*n;clipPower[name]=Math.sqrt(sum/a.length);}
+   const silentContext=new OfflineAudioContext(1,16000,16000),muted=new ArcadeAudio({context:silentContext});muted.connect();muted.setEnabled(false);muted.tone(440,440,.3);muted.vocal('mina');const silence=await silentContext.startRendering();
+   const live=new ArcadeAudio();await live.unlock();await live.ready;live.setScene({playing:true,paused:false,stage:1});live.tick();const musicScheduled=[...live.sources].filter(s=>s.channel==='music').length;live.setScene({playing:true,paused:true,stage:1});await new Promise(r=>setTimeout(r,70));const pausedSources=live.sources.size;await live.context.close();
+   return {loaded,expected:Object.keys(AUDIO_FILES).length,rms:Math.sqrt(power/wave.length),peak,clipPower,musicScheduled,pausedSources,silent:silence.getChannelData(0).every(n=>n===0),profiles:new Set(Object.values(VOICE_PROFILES).map(p=>p.pitch)).size,wave:Array.from(wave)};
+ });
+ assert.equal(audioReport.loaded.loaded,audioReport.expected,JSON.stringify(audioReport.loaded));assert.deepEqual(audioReport.loaded.failed,[]);for(const [name,power] of Object.entries(audioReport.clipPower))assert.ok(power>.001,`${name} must contain audible samples`);assert.ok(audioReport.rms>.02);assert.ok(audioReport.peak<1);assert.equal(audioReport.silent,true);assert.equal(audioReport.profiles,6);assert.ok(audioReport.musicScheduled>0);assert.equal(audioReport.pausedSources,0);
+ const wav=Buffer.alloc(44+audioReport.wave.length*2);wav.write('RIFF');wav.writeUInt32LE(wav.length-8,4);wav.write('WAVEfmt ',8);wav.writeUInt32LE(16,16);wav.writeUInt16LE(1,20);wav.writeUInt16LE(1,22);wav.writeUInt32LE(16000,24);wav.writeUInt32LE(32000,28);wav.writeUInt16LE(2,32);wav.writeUInt16LE(16,34);wav.write('data',36);wav.writeUInt32LE(wav.length-44,40);audioReport.wave.forEach((sample,i)=>wav.writeInt16LE(Math.round(Math.max(-1,Math.min(1,sample))*32767),44+i*2));await writeFile(resolve(root,'test-results/audio-preview.wav'),wav);
+ console.log(`PASS audio: ${audioReport.expected} clips decoded/non-silent, 6 voice profiles, music scheduling, pause cleanup, mute silence, peak ${audioReport.peak.toFixed(2)}; audio-preview.wav generated`);
  await page.close();
  const mobile=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,deviceScaleFactor:2});const mp=await mobile.newPage();mp.on('pageerror',e=>errors.push(e.message));await mp.goto(url);await mp.locator('.fighter-card').last().waitFor();assert.ok(await mp.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await mp.screenshot({path:resolve(root,'test-results/mobile-lobby.png'),fullPage:true});
  await mp.locator('[data-fighter=bolt]').click();await mp.selectOption('#opponent','titan');await mp.locator('#start').click();await mp.waitForTimeout(2600);await mp.locator('.touch-controls').waitFor({state:'visible'});

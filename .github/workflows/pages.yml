@@ -27,8 +27,8 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: browser-screenshots
-          path: test-results/*.png
+          name: browser-and-audio-checks
+          path: test-results/
   deploy:
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     needs: test
@@ -45,7 +45,7 @@ jobs:
       - name: Assemble static site
         run: |
           mkdir -p _site
-          cp index.html style.css game.js engine.js render.js .nojekyll _site/
+          cp index.html style.css game.js engine.js render.js fighter-art.js audio.js .nojekyll _site/
           cp -R assets _site/
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -1,4 +1,6 @@
-import { WIDTH, HEIGHT, FLOOR, attackBox, attackPhase } from './engine.js';
+import {drawFighter} from './fighter-art.js';
+export {drawFighter} from './fighter-art.js';
+import { WIDTH, HEIGHT, attackBox } from './engine.js';
 export const STAGES=[{name:'황혼의 골목',en:'OLD TOWN',tag:'01 / KYOTO DISTRICT',sky:'#25373c',ground:'#383f45'},{name:'미드나잇 항구',en:'NEON HARBOR',tag:'02 / DOCKSIDE',sky:'#171e38',ground:'#30334c'},{name:'잊혀진 사원',en:'ANCIENT RUINS',tag:'03 / HIGHLANDS',sky:'#343144',ground:'#464348'}];
 const rect=(c,x,y,w,h,color)=>{c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));};
 function poly(c,points,color){c.fillStyle=color;c.beginPath();points.forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.closePath();c.fill();}
@@ -38,65 +40,6 @@ export function drawStage(c,index,time=0){
  for(let row=0;row<5;row++){const y=437+row*25;rect(c,0,y,960,2,'#262e37');for(let col=0;col<14;col++)rect(c,col*87+(row%2)*42,y,2,25,'#282f37');}
  for(let i=0;i<28;i++)rect(c,(i*137)%960,445+(i*17)%88,15,2,'#525452');
  rect(c,0,504,960,36,'#1b2933');text(c,s.tag,24,526,12,'#97a6a5','left');text(c,'R E T R O   S T R E E T   F I G H T E R',936,526,10,'#899393','right');
-}
-export function drawFighter(c,f,time=0,options={}){
- const scale=options.scale||1;const dead=f.hp<=0;
- if(!options.portrait){c.fillStyle='#13212766';c.beginPath();c.ellipse(f.x,FLOOR+3,f.id==='titan'?46:36,9,0,0,Math.PI*2);c.fill();}
- if(f.trail&&!options.ghost)for(const t of f.trail){c.save();c.globalAlpha=t.life*.8;drawFighter(c,{...f,x:t.x,y:t.y,trail:[]},time,{...options,ghost:true});c.restore();}
- c.save();c.translate(Math.round(f.x),Math.round(f.y));c.scale(f.face*scale,scale);
- if(f.invuln>0&&Math.floor(time*22)%2===0)c.globalAlpha=.5;
- if(dead){c.translate(0,-10);c.rotate(-1.4);}else if(f.slam>0){c.translate(0,-30);c.rotate((.6-f.slam)*8);}
- const a=f.attack,m=a?.move,p=attackPhase(f),active=a&&a.t>=m.startup&&a.t<m.startup+m.active;
- const walk=Math.sin((f.walk||0)*1.5),bob=Math.sin(time*5)*2;
- let hip=[0,-52],chest=[-4,-87],head=[-1,-110];
- if(f.crouch){hip=[-5,-28];chest=[2,-51];head=[8,-72];}
- else if(f.y<FLOOR-5){hip=[0,-58];chest=[0,-89];head=[2,-113];}
- else {hip[1]+=bob;chest[1]+=bob;head[1]+=bob;}
- if(f.stun>0){chest[0]-=12;head[0]-=17;}
- if(f.land>0){hip[1]+=9;chest[1]+=9;head[1]+=9;}
- const width=f.id==='titan'?25:f.id==='mina'?15:19;
- let backFoot=[-25-walk*9,0],frontFoot=[25+walk*9,0],backKnee=[-20,-26],frontKnee=[18,-26];
- if(f.crouch){backKnee=[-28,-16];frontKnee=[27,-19];}
- if(f.y<FLOOR-5){backFoot=[-30,-20];frontFoot=[30,-27];backKnee=[-21,-44];frontKnee=[23,-52];}
- let backElbow=[-26,chest[1]+21],backHand=[-23,chest[1]+4],elbow=[24,chest[1]+10],hand=[32,chest[1]-9];
- if(f.guard){hand=[19,head[1]+1];elbow=[33,chest[1]+17];backHand=[8,head[1]+9];backElbow=[-5,chest[1]+22];}
- if(f.stun>0){hand=[-3,chest[1]+28];elbow=[14,chest[1]+35];}
- if(a){
-  const wind=a.t<m.startup,extension=active?Math.sin(Math.PI*p):wind?-.3:Math.max(0,1-(a.t-m.startup-m.active)/m.recovery)*.15;
-  if(['punch','flurry','stretch','breath','projectile','throw'].includes(m.type)){
-   const range=m.type==='stretch'&&m.limb==='arm'?(attackBox(f)?.range||45):m.type==='breath'?50:m.type==='throw'?55:m.range*f.reach;
-   if(m.limb!=='leg'){hand=[active?range+12:28+extension*20,chest[1]+(f.crouch?13:4)];elbow=[hand[0]*.5,chest[1]+9];}
-  }
-  if(['kick','spin','dash','dive'].includes(m.type)||m.limb==='leg'){
-   const range=m.limb==='leg'?(attackBox(f)?.range||40):m.range*f.reach;
-   if(active){frontFoot=[range+10,-(f.crouch?33:58)];frontKnee=[range*.45,-48];}
-   else if(wind){frontKnee=[30,-52];frontFoot=[18,-34];}
-  }
-  if(m.type==='rise'&&active){hand=[29,-151];elbow=[35,-115];frontKnee=[32,-53];frontFoot=[25,-31];}
-  if(m.type==='throw'&&active){hand=[20,-140];elbow=[38,-105];backHand=[-10,-141];backElbow=[-27,-102];}
-  if(m.type==='float'){backFoot=[10,-18];frontFoot=[-18,-16];backKnee=[-32,-40];frontKnee=[32,-40];hand=[32,-66];backHand=[-32,-66];}
-  if(m.type==='spin'&&active){backHand=[-52,-86];backElbow=[-32,-82];hand=[55,-84];elbow=[30,-83];}
- }
- if(f.victory){hand=[33,-143];elbow=[40,-114];backHand=[-35,-114];backElbow=[-35,-91];}
- const cloth=f.cloth,skin=f.skin,dark='#29333a';
- segment(c,hip,backKnee,width,cloth);segment(c,backKnee,backFoot,width-3,f.id==='agni'?skin:cloth);segment(c,[backFoot[0]-8,backFoot[1]-3],[backFoot[0]+10,backFoot[1]-3],10,f.id==='ryuji'||f.id==='agni'?skin:dark);
- segment(c,chest,backElbow,13,skin);segment(c,backElbow,backHand,12,skin);
- poly(c,[[chest[0]-width,chest[1]-7],[chest[0]+width,chest[1]-7],[hip[0]+width-3,hip[1]+9],[hip[0]-width+3,hip[1]+9]],f.id==='titan'||f.id==='agni'?skin:cloth);
- if(f.id==='ryuji'){poly(c,[[-14,chest[1]-6],[4,chest[1]+19],[12,chest[1]-6]],skin);segment(c,[-12,chest[1]-5],[6,chest[1]+29],4,'#9faeaa');rect(c,-18,hip[1]-1,36,7,'#d78354');rect(c,5,hip[1]+4,6,22,'#d78354');}
- if(f.id==='kazan'){rect(c,-15,chest[1]+9,31,7,'#354b45');rect(c,5,chest[1],10,15,'#b3a779');rect(c,-17,hip[1],35,7,'#263e39');}
- if(f.id==='titan'){segment(c,[-16,chest[1]-3],[-10,hip[1]],7,cloth);segment(c,[16,chest[1]-3],[10,hip[1]],7,cloth);rect(c,-21,hip[1]-2,42,13,cloth);rect(c,-10,hip[1],20,9,'#e6b66c');}
- if(f.id==='mina'){rect(c,-15,chest[1]+17,30,9,skin);rect(c,-18,hip[1],36,10,'#d294b9');rect(c,-13,hip[1]+11,9,13,'#d294b9');}
- if(f.id==='agni'){segment(c,[-16,chest[1]-8],[14,hip[1]],12,cloth);for(let i=0;i<5;i++)rect(c,-13+i*6,chest[1]+5+Math.abs(i-2)*-3,4,5,'#bfd0bb');rect(c,-17,hip[1],34,10,'#dba16b');}
- if(f.id==='bolt'){poly(c,[[-2,chest[1]-5],[12,chest[1]-5],[3,chest[1]+9],[14,chest[1]+9],[-6,hip[1]-3],[-1,chest[1]+14],[-11,chest[1]+14]],f.color);}
- segment(c,hip,frontKnee,width,cloth);segment(c,frontKnee,frontFoot,width-3,f.id==='agni'?skin:cloth);segment(c,[frontFoot[0]-8,frontFoot[1]-3],[frontFoot[0]+13,frontFoot[1]-3],10,f.id==='ryuji'||f.id==='agni'?skin:dark);
- segment(c,chest,elbow,14,f.id==='ryuji'?cloth:skin);segment(c,elbow,hand,12,skin);rect(c,hand[0]-6,hand[1]-6,13,13,f.id==='agni'?skin:f.color);
- rect(c,head[0]-8,head[1]+9,15,10,skin);rect(c,head[0]-12,head[1]-12,25,26,skin);rect(c,head[0]-15,head[1]-9,6,16,skin);rect(c,head[0]+10,head[1],7,6,skin);rect(c,head[0]+6,head[1]-3,5,3,'#192c30');rect(c,head[0]+6,head[1]+9,7,2,'#664b44');
- if(f.id==='agni'){rect(c,head[0]-13,head[1]-13,27,6,'#b9c0aa');rect(c,head[0]-6,head[1]-19,14,9,'#b9c0aa');rect(c,head[0]+3,head[1]-9,4,4,'#ebac72');rect(c,head[0]-12,head[1]+9,8,13,'#b9c0aa');}
- else {rect(c,head[0]-13,head[1]-16,27,10,f.id==='bolt'?'#c3db8a':'#263337');if(f.id==='bolt')poly(c,[[-12,head[1]-14],[-7,head[1]-26],[0,head[1]-19],[8,head[1]-28],[12,head[1]-13]],'#c3db8a');if(f.id==='mina'){rect(c,head[0]-19,head[1]-12,10,12,'#293035');segment(c,[-18,head[1]],[-28,head[1]+34],8,'#293035');}rect(c,head[0]-13,head[1]-6,26,4,f.color);if(f.id==='ryuji'||f.id==='kazan')poly(c,[[-13,head[1]-5],[-36,head[1]-8+Math.sin(time*9)*4],[-29,head[1]+1],[-13,head[1]-2]],f.color);}
- if(active&&m.type==='breath'){for(let i=0;i<7;i++){const len=30+i*((attackBox(f)?.range||205)-35)/6;poly(c,[[22,-102],[len,-115+Math.sin(time*30+i)*10],[len+22,-85],[len,-64-Math.sin(time*22+i)*7]],i%2?'#ffd17d':'#ed754a');}}
- if(active&&f.id==='bolt'){c.strokeStyle=f.color;c.lineWidth=3;c.beginPath();c.moveTo(-36,-20);c.lineTo(-49,-57);c.lineTo(-29,-48);c.lineTo(-41,-103);c.lineTo(-17,-81);c.stroke();}
- if(active&&['spin','rise'].includes(m.type)){c.strokeStyle=f.color;c.globalAlpha=.6;c.lineWidth=5;c.beginPath();c.ellipse(12,-65,64,49,-p*4,0,Math.PI*1.5);c.stroke();}
- c.restore();
 }
 export function drawMatch(c,match,stage,time,fx=[],debug=false){
  c.save();if(match.shake)c.translate(Math.sin(time*140)*match.shake,Math.cos(time*123)*match.shake*.5);

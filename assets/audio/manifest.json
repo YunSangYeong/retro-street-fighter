@@ -1,0 +1,176 @@
+{
+  "classic/agni-a.mp3": {
+    "source": "https://raw.githubusercontent.com/jhonatanrojasbastidas/Keyboard-street-fighter-sounds/3536bbeee6cbec2247b8916f4accb603a7b81d84/sounds/Dhalsim%20Yoga%20Fire.mp3",
+    "sha256": "475ffeda84fc1b54330f43be5851719cfe2cb12ead51d7b8be1c7ea7db1d90c0",
+    "bytes": 27306,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "classic/agni-s.mp3": {
+    "source": "https://raw.githubusercontent.com/jhonatanrojasbastidas/Keyboard-street-fighter-sounds/3536bbeee6cbec2247b8916f4accb603a7b81d84/sounds/Dhalsim%20Yoga%20Flame.mp3",
+    "sha256": "1e74a07821904f0d75d9de4a54e3ec12610e611a7a86f6180424997231ee853a",
+    "bytes": 29918,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "classic/block.mp3": {
+    "source": "https://raw.githubusercontent.com/Don-BP/super-street-fighter-2-soundboard/61cff38ced71281f8d5eccd84dc9790f131dbcc9/sounds/arcade-block.mp3",
+    "sha256": "7a87f6aaf85f68b2efa1399958f3dfbe629e040661fa020f822caf0b42c4d990",
+    "bytes": 2726,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "classic/electric.mp3": {
+    "source": "https://raw.githubusercontent.com/Don-BP/super-street-fighter-2-soundboard/61cff38ced71281f8d5eccd84dc9790f131dbcc9/sounds/electric.mp3",
+    "sha256": "03ef6dca67af6d7ed55706520e7d2dc642958f3707f9ac4848e4297cdbb7b660",
+    "bytes": 2400,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "classic/fight.mp3": {
+    "source": "https://raw.githubusercontent.com/jhonatanrojasbastidas/Keyboard-street-fighter-sounds/3536bbeee6cbec2247b8916f4accb603a7b81d84/sounds/Fight.mp3",
+    "sha256": "b4d87e96290be1da8fdb1f3ef587e93d15a711901f48b855717c0ec3873b704b",
+    "bytes": 15290,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "classic/hit-heavy.mp3": {
+    "source": "https://raw.githubusercontent.com/Don-BP/super-street-fighter-2-soundboard/61cff38ced71281f8d5eccd84dc9790f131dbcc9/sounds/fierce-hit.mp3",
+    "sha256": "8d2a3e531a2b03f324696b9fcc236235d15e181005a48c696a6467cf4fe6d1a0",
+    "bytes": 7057,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "classic/hit-light.mp3": {
+    "source": "https://raw.githubusercontent.com/Don-BP/super-street-fighter-2-soundboard/61cff38ced71281f8d5eccd84dc9790f131dbcc9/sounds/jab-hit.mp3",
+    "sha256": "637ce149c7d08755c3daaf01e858942b7c57c55eb50ed7d0c418000009e7da14",
+    "bytes": 3640,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "classic/hit-medium.mp3": {
+    "source": "https://raw.githubusercontent.com/Don-BP/super-street-fighter-2-soundboard/61cff38ced71281f8d5eccd84dc9790f131dbcc9/sounds/strong-hit.mp3",
+    "sha256": "418e873db0a8914ca2855f8f4f47a295c301158482c8a3201e9205fc29bcbb92",
+    "bytes": 4552,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "classic/hurt.mp3": {
+    "source": "https://raw.githubusercontent.com/Don-BP/super-street-fighter-2-soundboard/61cff38ced71281f8d5eccd84dc9790f131dbcc9/sounds/ryu-ouch.mp3",
+    "sha256": "6856141ae947e49c6be37db7552f298aa209f9142721de4d98c41903982e17e9",
+    "bytes": 2752,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "classic/kazan-s.mp3": {
+    "source": "https://raw.githubusercontent.com/jhonatanrojasbastidas/Keyboard-street-fighter-sounds/3536bbeee6cbec2247b8916f4accb603a7b81d84/sounds/Guile%20Sonic%20Boom.mp3",
+    "sha256": "ad43ba14edf2e131b69e8d1974ae3838ad3670599c74eafabdf6ff089d0a44ac",
+    "bytes": 35143,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "classic/kick.mp3": {
+    "source": "https://raw.githubusercontent.com/Don-BP/super-street-fighter-2-soundboard/61cff38ced71281f8d5eccd84dc9790f131dbcc9/sounds/roundhouse-hit.mp3",
+    "sha256": "048f323f08f6cf7593a3275ec026146416b17224b5d5295e8967fbe9ff9b201d",
+    "bytes": 8803,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "classic/lose.mp3": {
+    "source": "https://raw.githubusercontent.com/jhonatanrojasbastidas/Keyboard-street-fighter-sounds/3536bbeee6cbec2247b8916f4accb603a7b81d84/sounds/You%20lose.mp3",
+    "sha256": "ca90160b517c5759fb47f7d9f739dfc123b50695040955345437ce35bd26c0c7",
+    "bytes": 34621,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "classic/one.mp3": {
+    "source": "https://raw.githubusercontent.com/Don-BP/super-street-fighter-2-soundboard/61cff38ced71281f8d5eccd84dc9790f131dbcc9/sounds/announcer-one.mp3",
+    "sha256": "4a94fe020a0c461c7a8794fb93b20f7a5601d29d3acfceeb63aead89d5eaa0be",
+    "bytes": 4814,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "classic/round.mp3": {
+    "source": "https://raw.githubusercontent.com/Don-BP/super-street-fighter-2-soundboard/61cff38ced71281f8d5eccd84dc9790f131dbcc9/sounds/announcer-round.mp3",
+    "sha256": "005eba0f04746f8604e657c8689fd83d3b0a8903708cea8d8336597ec657183c",
+    "bytes": 6374,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "classic/ryuji-a.mp3": {
+    "source": "https://raw.githubusercontent.com/jhonatanrojasbastidas/Keyboard-street-fighter-sounds/3536bbeee6cbec2247b8916f4accb603a7b81d84/sounds/RyuKen%20Hadoken.mp3",
+    "sha256": "3e2420ffb23c54afe84c25f7b5cbfa18f3c9f36e034b2a286a0bd5f123db7e7c",
+    "bytes": 24694,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "classic/ryuji-d.mp3": {
+    "source": "https://raw.githubusercontent.com/jhonatanrojasbastidas/Keyboard-street-fighter-sounds/3536bbeee6cbec2247b8916f4accb603a7b81d84/sounds/RyuKen%20Kick.mp3",
+    "sha256": "6b2b3e0bcc0b58a62a79ad34d865563dccb0f839a2c37eda480724a797cf564d",
+    "bytes": 35665,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "classic/ryuji-grunt-1.mp3": {
+    "source": "https://raw.githubusercontent.com/Don-BP/super-street-fighter-2-soundboard/61cff38ced71281f8d5eccd84dc9790f131dbcc9/sounds/ryu-grunt-1.mp3",
+    "sha256": "d28aa211c27889b5528579ac336b2827a49365d8ecdf5035c3b9e132829fc3e3",
+    "bytes": 5906,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "classic/ryuji-grunt-2.mp3": {
+    "source": "https://raw.githubusercontent.com/Don-BP/super-street-fighter-2-soundboard/61cff38ced71281f8d5eccd84dc9790f131dbcc9/sounds/ryu-grunt-2.mp3",
+    "sha256": "78bd66ae1854bd94263d4dcbb3bb94ac861bb85b9588cdb145ac3cb6083b43f8",
+    "bytes": 3770,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "classic/ryuji-s.mp3": {
+    "source": "https://raw.githubusercontent.com/jhonatanrojasbastidas/Keyboard-street-fighter-sounds/3536bbeee6cbec2247b8916f4accb603a7b81d84/sounds/RyuKen%20Shoryuken.mp3",
+    "sha256": "b656e3ffd3bd08f71c5b0badd48406b6a1d5df41c6d0ee189017541f20e6afad",
+    "bytes": 35665,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "classic/three.mp3": {
+    "source": "https://raw.githubusercontent.com/Don-BP/super-street-fighter-2-soundboard/61cff38ced71281f8d5eccd84dc9790f131dbcc9/sounds/announcer-three.mp3",
+    "sha256": "b2183d0b0838b30b20bcd96c6a2eb321750ea5883962c04dccbdf4516f66e4b4",
+    "bytes": 6478,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "classic/titan-a.mp3": {
+    "source": "https://raw.githubusercontent.com/jhonatanrojasbastidas/Keyboard-street-fighter-sounds/3536bbeee6cbec2247b8916f4accb603a7b81d84/sounds/Zangief%20Grunt.mp3",
+    "sha256": "2270233b69da96c611092a141f2f3274b5570c4f9202a8ac67afa84b94a808ce",
+    "bytes": 13200,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "classic/titan-win.mp3": {
+    "source": "https://raw.githubusercontent.com/jhonatanrojasbastidas/Keyboard-street-fighter-sounds/3536bbeee6cbec2247b8916f4accb603a7b81d84/sounds/Zangief%20Laugh.mp3",
+    "sha256": "0995068949ae94ab3305f7d6718c79c80702957bc86d2808bd5b4803f7329fd8",
+    "bytes": 49772,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "classic/two.mp3": {
+    "source": "https://raw.githubusercontent.com/Don-BP/super-street-fighter-2-soundboard/61cff38ced71281f8d5eccd84dc9790f131dbcc9/sounds/announcer-two.mp3",
+    "sha256": "c4e10f4a3075808d56610d6862c170f6a9393b49c07149e8fe111e17dff4f98b",
+    "bytes": 4448,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "classic/win.mp3": {
+    "source": "https://raw.githubusercontent.com/jhonatanrojasbastidas/Keyboard-street-fighter-sounds/3536bbeee6cbec2247b8916f4accb603a7b81d84/sounds/You%20win.mp3",
+    "sha256": "b605842dd849e21c44732a9f15a2421c22f8ca03a778b8f0e62bbbc653445eff",
+    "bytes": 17380,
+    "credit": "Street Fighter / CAPCOM; short voice or sound-effect sample"
+  },
+  "impact/impact_metal_heavy_000.ogg": {
+    "source": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot/tree/999dd1684873f8b020a3aa5b26e713da21688924/addons/kenney%20impact%20sounds/impact_metal_heavy_000.ogg",
+    "sha256": "e07045693e4a2b3d165c424e3dab4c781d9ff8880a386880ac89a51315d7f831",
+    "bytes": 6110,
+    "credit": "Kenney; CC0 1.0"
+  },
+  "impact/impact_punch_heavy_000.ogg": {
+    "source": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot/tree/999dd1684873f8b020a3aa5b26e713da21688924/addons/kenney%20impact%20sounds/impact_punch_heavy_000.ogg",
+    "sha256": "b33a8f14068aec24ec69ba85e5e87fdc41228975f6a1a3e44a6e7d6fc3d9f8d8",
+    "bytes": 11617,
+    "credit": "Kenney; CC0 1.0"
+  },
+  "impact/impact_punch_heavy_001.ogg": {
+    "source": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot/tree/999dd1684873f8b020a3aa5b26e713da21688924/addons/kenney%20impact%20sounds/impact_punch_heavy_001.ogg",
+    "sha256": "f92f5cb6ba4ff2766497292ffd90865654317eeca976f5652e0708dbdcdc0dd9",
+    "bytes": 10861,
+    "credit": "Kenney; CC0 1.0"
+  },
+  "impact/impact_punch_medium_000.ogg": {
+    "source": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot/tree/999dd1684873f8b020a3aa5b26e713da21688924/addons/kenney%20impact%20sounds/impact_punch_medium_000.ogg",
+    "sha256": "486988aa2d6440ffc4c62a0e8ccf3c23673ba84424bd4723378d451b7255eb5c",
+    "bytes": 8800,
+    "credit": "Kenney; CC0 1.0"
+  },
+  "impact/impact_punch_medium_001.ogg": {
+    "source": "https://github.com/Boyquotes/kenney-impact-sounds-for-godot/tree/999dd1684873f8b020a3aa5b26e713da21688924/addons/kenney%20impact%20sounds/impact_punch_medium_001.ogg",
+    "sha256": "e71d23abcc3f10d9d6bc9615b2a431fff70b12333a5fcdd9964457564ace4349",
+    "bytes": 8701,
+    "credit": "Kenney; CC0 1.0"
+  }
+}

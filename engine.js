@@ -53,8 +53,8 @@ export class Match {
   if(f.attack||f.stun>0||f.hp<=0)return false;
   const m=moveFor(f.id,key,input.down);if(!m||m.special&&f.cooldown>0)return false;
   if(m.type==='throw'&&f.y<FLOOR-2)return false;
-  f.attack={move:m,t:0,hits:new Set(),spawned:false};f.guard=false;
-  if(m.special) {f.cooldown=1.15;this.emit('special',{fighter:f,move:m});}
+  f.attack={move:m,t:0,hits:new Set(),spawned:false};f.guard=false;this.emit('attack',{fighter:f,move:m,key});
+  if(m.special) {f.cooldown=1.15;this.emit('special',{fighter:f,move:m,key});}
   return true;
  }
  aiInput(dt){
@@ -90,7 +90,7 @@ export class Match {
   target.vx=(target.x>=sourceX?1:-1)*(defended?80:move.type==='throw'?245:170);
   if(!defended){target.attack=null;target.float=0;if(move.type==='throw')target.slam=.6;target.combo++;target.comboTimer=1.1;if(target.combo>=4){target.invuln=.65;target.combo=0;target.vx*=1.5;}if(move.type==='rise'||move.type==='throw')target.vy=-230;}
   this.hitstop=defended?.025:.055;this.shake=defended?1:move.damage>12?7:3;
-  this.emit(defended?'block':'hit',{x:target.x,y:target.y-70,color:attacker.color,move,damage});return true;
+  this.emit(defended?'block':'hit',{x:target.x,y:target.y-70,color:attacker.color,fighter:attacker,target,move,damage});return true;
  }
  step(dt,input={},useAI=true){
   if(this.phase==='over')return;
