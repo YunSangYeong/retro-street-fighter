@@ -51,13 +51,13 @@ export class ArcadeAudio{
     }));
     return {loaded:this.buffers.size,failed:[...this.failedSamples],errors:{...this.loadErrors}};
   }
-  setEnabled(value){this.enabled=!!value;if(this.master)this.master.gain.setTargetAtTime(this.enabled?this.volume:0,this.context.currentTime,.015);if(!value)this.stop();this.nextBeat=0;}
+  setEnabled(value){if(this.enabled!==!!value)this.serial++;this.enabled=!!value;if(this.master)this.master.gain.setTargetAtTime(this.enabled?this.volume:0,this.context.currentTime,.015);if(!value)this.stop();this.nextBeat=0;}
   setVolume(value){this.volume=Math.max(0,Math.min(1,Number(value)));if(this.master)this.master.gain.setTargetAtTime(this.enabled?this.volume:0,this.context.currentTime,.015);}
   setMusic(value){this.musicEnabled=!!value;if(!value)this.stop('music');this.nextBeat=0;}
   setScene(scene){
     if(this.scene.playing!==scene.playing||this.scene.stage!==scene.stage){this.serial++;this.beat=0;this.nextBeat=0;}
     if(scene.paused&&!this.scene.paused||!scene.playing&&this.scene.playing)this.stop();
-    if(scene.paused!==this.scene.paused)this.nextBeat=0;
+    if(scene.paused!==this.scene.paused){this.serial++;this.nextBeat=0;}
     this.scene={...this.scene,...scene};
   }
   track(source,nodes,channel){
